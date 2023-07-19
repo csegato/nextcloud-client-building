@@ -20,20 +20,20 @@ Rem            If you intend to modify or specify them outside, keep the scheme!
 Rem ************************************************************************************************************************************************************************************
 Rem Branding options
 
-if "%APP_NAME%" == ""                       set APP_NAME=Nextcloud
-if "%APP_NAME_SANITIZED%" == ""             set APP_NAME_SANITIZED=Nextcloud
+if "%APP_NAME%" == ""                       set APP_NAME=nextflydoc
+if "%APP_NAME_SANITIZED%" == ""             set APP_NAME_SANITIZED=nextflydoc
 
-if "%USE_BRANDING%" == ""                   set USE_BRANDING=0
+if "%USE_BRANDING%" == ""                   set USE_BRANDING=1
 
 Rem ************************************************************************************************************************************************************************************
 Rem Build environment
 
 rem Comma separated list of build targets (default: Win64, Win32)
-if "%BUILD_TARGETS%" == ""                  set BUILD_TARGETS=Win64,Win32
+if "%BUILD_TARGETS%" == ""                  set BUILD_TARGETS=Win64
 
-if "%PROJECT_PATH%" == ""                   set PROJECT_PATH=c:/Nextcloud/client-building
+if "%PROJECT_PATH%" == ""                   set PROJECT_PATH=x:/Nextcloud/client-building
 
-if "%Png2Ico_EXECUTABLE%" == ""             set Png2Ico_EXECUTABLE=c:/Nextcloud/tools/png2ico.exe
+if "%Png2Ico_EXECUTABLE%" == ""             set Png2Ico_EXECUTABLE=x:/Nextcloud/tools/png2ico.exe
 
 if "%VS_VERSION%" == ""                     set VS_VERSION=2019
 
@@ -43,7 +43,7 @@ if "%VCINSTALLDIR%" == "" (
 		set VCINSTALLDIR=C:\Program^ Files^ ^(x86^)\Microsoft^ Visual^ Studio\2017\Community\VC
 	)
 	if "%VS_VERSION%" == "2019"	(
-		set VCINSTALLDIR=C:\Program^ Files^ ^(x86^)\Microsoft^ Visual^ Studio\2019\Community\VC
+		set VCINSTALLDIR=s:\Program^ Files\Microsoft^ Visual^ Studio\2019\Community\VC
 	)
 )
 
@@ -67,17 +67,17 @@ if "%BUILD_DATE%" == "" (
     )
 )
 
-if "%VERSION_SUFFIX%" == ""                 set VERSION_SUFFIX=daily
+if "%VERSION_SUFFIX%" == ""                 set VERSION_SUFFIX=stable
 
 Rem Git tags for checkout
 Rem Desktop Client (master for daily build or e.g.: stable-2.5.3)
 Rem You may query the available tags with "git tag" within ./desktop
-if "%TAG_DESKTOP%" == ""                    set TAG_DESKTOP=master
+if "%TAG_DESKTOP%" == ""                    set TAG_DESKTOP=v3.9.0
 
 Rem ************************************************************************************************************************************************************************************
 
 Rem Git pull defaults
-if "%PULL_DESKTOP%" == ""                   set PULL_DESKTOP=1
+if "%PULL_DESKTOP%" == ""                   set PULL_DESKTOP=0
 
 Rem Git checkout defaults
 if "%CHECKOUT_DESKTOP%" == ""               set CHECKOUT_DESKTOP=1
@@ -89,7 +89,7 @@ if "%USE_BRANDING%" == "1" (
 )
 
 Rem Updater: ON = build, OFF = don't build (default)
-if "%BUILD_UPDATER%" == ""                  set BUILD_UPDATER=OFF
+if "%BUILD_UPDATER%" == ""                  set BUILD_UPDATER=ON
 
 Rem ************************************************************************************************************************************************************************************
 Rem Installer Options: 1 = build, 0 = don't build (default)
@@ -102,10 +102,10 @@ if "%INSTALLER_OUTPUT_PATH%" == ""          set INSTALLER_OUTPUT_PATH=%PROJECT_P
 
 Rem ************************************************************************************************************************************************************************************
 Rem Code Signing Options: 1 = enable (default), 0 = disable
-if "%USE_CODE_SIGNING%" == ""               set USE_CODE_SIGNING=1
+if "%USE_CODE_SIGNING%" == ""               set USE_CODE_SIGNING=0
 
 Rem Vendor Name: Used for signing, also used by the installer
-if "%APPLICATION_VENDOR%" == ""             set APPLICATION_VENDOR=Nextcloud GmbH
+if "%APPLICATION_VENDOR%" == ""             set APPLICATION_VENDOR=Prospettive Hi-Tech
 
 Rem PFX Key and Password - it may be a good idea to set the password outside (environment variables)
 if "%P12_KEY%" == ""                        set P12_KEY=%PROJECT_PATH%\key\%APPLICATION_VENDOR%.p12
@@ -117,7 +117,7 @@ if "%SIGN_TIMESTAMP_DIGEST_ALG%" == ""      set SIGN_TIMESTAMP_DIGEST_ALG=sha256
 
 Rem ************************************************************************************************************************************************************************************
 Rem Upload build: 1 = enable (default), 0 = disable
-if "%UPLOAD_BUILD%" == ""                   set UPLOAD_BUILD=1
+if "%UPLOAD_BUILD%" == ""                   set UPLOAD_BUILD=0
 
 Rem Delete build after successful upload: 1 = delete, 0 = keep (default)
 if "%UPLOAD_DELETE%" == ""                  set UPLOAD_DELETE=0
@@ -132,9 +132,10 @@ Rem CMake extra build flags (optional)
 
 Rem Here you may define special flags for the Desktop build, e.g. the Update Server URL
 Rem ( -DAPPLICATION_UPDATE_URL="https://your.url" ). see: desktop/build/config.h and version.h
-if "%CMAKE_EXTRA_FLAGS_DESKTOP%" == ""      set CMAKE_EXTRA_FLAGS_DESKTOP=
+if "%CMAKE_EXTRA_FLAGS_DESKTOP%" == ""      set CMAKE_EXTRA_FLAGS_DESKTOP=-DBUILD_WIN_MSI=1
 
 Rem Optional extra flags for the NSIS Installer build tool
 if "%NSIS_EXTRA_FLAGS%" == ""               set NSIS_EXTRA_FLAGS=
 
 Rem ************************************************************************************************************************************************************************************
+set "WIX=C:\Program Files (x86)\WiX Toolset v3.11"
